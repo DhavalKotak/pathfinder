@@ -1,5 +1,9 @@
 body {
   margin: 0;
+  display: grid;
+  place-content: center;
+  background-color: #041837;
+  height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -7,7 +11,34 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.grid{
+  display: grid;
+  place-content: center;
+  grid-template-columns: repeat(10 ,60px);
+  grid-template-rows: repeat(10, 60px);
+  width: 600px;
+  height: 600px;
+}
+
+.node{
+  display: grid;
+  place-content: center;
+  border: 1px solid black;
+  background-color: #203ecc;
+}
+
+.close{
+  background-color: black;
+  border-color: grey;
+}
+
+.open{
+  background-color: orange;
+}
+
+.path{
+  background-color: darkgreen;
+}
+button{
+  font-size: larger;
 }
