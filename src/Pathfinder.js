@@ -99,9 +99,14 @@ export const findNeighbourNodes = (grid,node) => {
             }
             if(neighbour){
                 if(neighbour.x >=0 && neighbour.y >=0 && neighbour.x < 11 && neighbour.y < 11){
-                    if(!(i === 0 && j === 0)){        
+                    if(!(i === 0 && j === 0)){
                         if(!neighbour.isClosed){
-                            neighbourNodes.push(neighbour)
+                            if(node.x === 0 && j===-1)
+                                continue
+                            else if(node.x === 9 && j===1)
+                                continue
+                            else
+                                neighbourNodes.push(neighbour)
                         }
                     }
                 }
