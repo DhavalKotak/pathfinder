@@ -10,7 +10,7 @@ export const startNode = (x,y,grid) => {
                 node.end = false
             if(node.isClosed)
                 node.isClosed = false
-        }            
+        }
         return node
     })
     return newNodes
@@ -57,10 +57,19 @@ export const closeNode = node => {
     node.isClosed = true
 }
 
-export const findDistance = (endNode,node) => {
+export const findDistance = (node,endNode) => {
     let x = Math.abs(endNode.x - node.x)
     let y = Math.abs(endNode.y - node.y)
-    return (x+y)*10
+    if(x === 0 || y === 0)
+        return (x + y)*10
+    else{
+        if(x < y)
+            return x*4 + y*10
+        if(x > y)
+            return x*10 + y*4
+        else
+            return x*14
+    }
 }
 
 export const fCost = node => {
@@ -98,16 +107,14 @@ export const findNeighbourNodes = (grid,node) => {
                     neighbour = grid.find(item => node.id+10+j === item.id)
             }
             if(neighbour){
-                if(neighbour.x >=0 && neighbour.y >=0 && neighbour.x < 11 && neighbour.y < 11){
-                    if(!(i === 0 && j === 0)){
-                        if(!neighbour.isClosed){
-                            if(node.x === 0 && j===-1)
-                                continue
-                            else if(node.x === 9 && j===1)
-                                continue
-                            else
-                                neighbourNodes.push(neighbour)
-                        }
+                if(!(i === 0 && j === 0)){
+                    if(!neighbour.isClosed){
+                        if(node.x === 0 && j===-1)
+                            continue
+                        else if(node.x === 9 && j===1)
+                            continue
+                        else
+                            neighbourNodes.push(neighbour)
                     }
                 }
             }
@@ -130,15 +137,14 @@ export const Pathfind = grid => {
         let neighbours = findNeighbourNodes(grid,currentNode)
         neighbours.forEach(neighbour => {
             if(neighbour.isOpen){
-                if(neighbour.gCost > (currentNode.gCost +(findDistance(currentNode,neighbour)*10))){
-                    neighbour.gCost = currentNode.gCost + (findDistance(currentNode,neighbour)*10)
+                if(neighbour.gCost > (currentNode.gCost + findDistance(currentNode,neighbour))){
+                    neighbour.gCost = currentNode.gCost + findDistance(currentNode,neighbour)
                     neighbour.parent = currentNode
-                    
                 }
             }else{
                 addToOpenList(neighbour)
-                neighbour.hCost = findDistance(neighbour,endNode)*10
-                neighbour.gCost = findDistance(neighbour,currentNode)*14
+                neighbour.hCost = findDistance(neighbour,endNode)
+                neighbour.gCost = findDistance(neighbour,currentNode)
                 neighbour.parent = currentNode
                 neighbour.openListIndex = openList.length
                 openList.push(neighbour)
@@ -158,13 +164,12 @@ export const Pathfind = grid => {
             }
             path.push(currentNode)
             currentNode.path = true
-            console.log(openList)
             return path
         }
 
         maxLoops--
 
     }while(currentNode && maxLoops !== 0)
-    
+
     return path
 }
