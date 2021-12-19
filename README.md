@@ -4,7 +4,7 @@ This is a project that visualizes the working of the [A* pathfinding algorithm](
 
 ## Basic Controls
 
-The start node is blue, end node is red and the walls are black.
+The start node is red, end node is blue and the walls are black.
 
 To create nodes:
   - Start: left click
